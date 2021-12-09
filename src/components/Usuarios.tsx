@@ -1,18 +1,30 @@
-import { useEffect } from 'react'
-import { reqResApi } from '../api/reqRes'
-import { ReqResList } from '../interfaces/reqRes';
+import { useUsuarios } from '../hooks/useUsuarios';
+
 
 export const Usuarios = () => {
-    useEffect(() => {
-       reqResApi.get<ReqResList>('/users')
-       .then(resp=>{
-           console.log(resp.data.data)
-       })
-       .catch(console.log)
-    }, [])
+const {users,prevPage,nextPage,renderItem} = useUsuarios();
     return (
         <>
-           <h3>Usuarios</h3> 
+           <h3>Usuarios:</h3> 
+           <table className='table'>
+               <thead>
+                   <tr>
+                       <th>Avatar</th>
+                       <th>Nome</th>
+                       <th>Email</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   {users.map(renderItem)}
+               </tbody>
+           </table>
+           <button className='btn btn-primary' onClick={prevPage}>
+               Anterior
+           </button>
+           &nbsp;
+           <button className='btn btn-primary' onClick={nextPage}>
+               Próxima
+           </button>
         </>
     )
 }
