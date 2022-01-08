@@ -1,34 +1,29 @@
-interface Person {
-    fullName:string;
-    age:number;
-    location:Direction;
+interface Persona {
+    nomeCompleto: string;
+    idade: number;
+    direcao: Direcao;
 }
 
-interface Direction{
-    country:string;
-    houseNo:number;
+interface Direcao {
+    pais: string;
+    casaNo: number;
 }
 
 export const ObjetosLiterais = () => {
-    
-    const person: Person ={
-        fullName:'Thaynar',
-        age:25,
-        location:{
-            country:'Brasil',
-            houseNo:340
-        }
-    }
-    
+    const pessoa: Persona = {
+        nomeCompleto: "Thaynar",
+        idade: 25,
+        direcao: {
+            pais: "Brasil",
+            casaNo: 162,
+        },
+    };
     return (
         <>
-        <h3>Objetos Literais</h3>
-        <code>
-            <pre>
-                {JSON.stringify(person,null,2)}
-            </pre>
-        </code>
-            
+            <h3>Objetos Literais</h3>
+            <code>
+                <pre>{JSON.stringify(pessoa, null, 2)}</pre>
+            </code>
         </>
-    )
-}
+    );
+};

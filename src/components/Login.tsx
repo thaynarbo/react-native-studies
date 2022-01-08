@@ -1,100 +1,105 @@
 import { useEffect, useReducer } from "react";
 
 interface AuthState {
-    validating:boolean;
-    token:string | null;
+    validando: boolean;
+    token: string | null;
     username: string;
-    name:string;
+    nome: string;
 }
 
-const initialState:AuthState={
-    name:'',
-    username:'',
-    token:null,
-    validating:true
-}
+const initialState: AuthState = {
+    validando: false,
+    token: null,
+    username: "",
+    nome: "",
+};
 
-type loginPayload ={
-    username:string;
-    name:string;
-}
+type loginPayload = {
+    username: string;
+    nome: string;
+};
 
-type AuthAction = 
-    | {type:'logout'}
-    | {type:'login',payload:loginPayload};
+type AuthAction = { type: "logout" } | { type: "login"; payload: loginPayload };
 
-const authReducer = (state:AuthState,action:AuthAction):AuthState =>{
+const authReducer = (state: AuthState, action: AuthAction): AuthState => {
     switch (action.type) {
-        case 'logout':
+        case "logout":
             return {
-                validating:false,
-                name:'',
-                username:'',
-                token:null,
-            }
-        
-        case 'login':
-            const {name,username} = action.payload;
+                validando: false,
+                token: null,
+                nome: "",
+                username: "",
+            };
+            break;
+        case "login":
+            const { nome, username } = action.payload;
             return {
-                name,
+                validando: false,
+                token: "AB23",
+                nome,
                 username,
-                token:'ABC123',
-                validating:false,
-            }
+            };
+
         default:
             return state;
     }
-}
+};
+
 export const Login = () => {
-    const [{validating,name,token}, dispatch] = useReducer(authReducer, initialState)
-    useEffect(() => {
-        setTimeout(()=>{
-            dispatch({type:'logout'})
-        },1500)
-    }, [])
+    const [{ validando, token, username }, dispatch] = useReducer(
+        authReducer,
+        initialState
+    );
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         dispatch({ type: "logout" });
+    //     }, 1500);
+    // }, []);
 
-    const login = ()=>{
+    const login = () => {
         dispatch({
-            type:'login',
-            payload:{
-                name:'Thaynar',
-                username:'Brandão'
-            }
+            type: "login",
+            payload: {
+                nome: "Thaynar",
+                username: "Thay",
+            },
+        });
+    };
 
-        })
-    }
-
-    const logout = ()=>{
-        dispatch({type:'logout'})
-    }
-
-
-    if(validating){
+    const logout = () => {
+        dispatch({
+            type: "logout",
+        });
+    };
+    if (validando) {
         return (
             <>
-            <h3>Login</h3>
-            <div className="alert alert-info">
-                Validando...
-            </div>
+                <h3>Login</h3>
+                <div className="alert alert-info">Validando...</div>
             </>
-        )
+        );
     }
     return (
         <>
             <h3>Login</h3>
-            {
-                (token)?(<div className="alert alert-success"> Autenticado como:{name} </div>)
-                : <div className="alert alert-danger">Não está autenticado</div>
-            }
+            {/* <div className="alert alert-info">Validando</div> */}
+            {token ? (
+                <div className="alert alert-success">
+                    Autenticado como {username}
+                </div>
+            ) : (
+                <div className="alert alert-danger">Não está autenticado</div>
+            )}
 
-            {(token)?
-                (<button className="btn btn-danger" onClick={logout}>
+            {token ? (
+                <button className="btn btn-danger" onClick={logout}>
                     Logout
-                </button>)
-                :<button className="btn btn-primary" onClick={login}>
+                </button>
+            ) : (
+                <button className="btn btn-primary" onClick={login}>
                     Login
                 </button>
-            }
+            )}
         </>
-    )
-}
+    );
+};

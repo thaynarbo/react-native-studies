@@ -1,12 +1,13 @@
-import {useState} from 'react'
+import { useState } from "react";
 
-export const useCounter = (initial:number=10) => {
+export const useCounter = (initial: number = 10) => {
     const [valor, setValor] = useState(initial);
-     const acumular=(number:number)=>{
+    const acumular = (number: number) => {
         setValor(valor + number);
-     }
-    
+    };
+
     return {
-        valor,acumular
-    }
-}
+        valor,
+        acumular,
+    };
+};
